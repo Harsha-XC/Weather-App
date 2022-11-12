@@ -5,7 +5,6 @@ import 'package:http/http.dart'as http;
 
 class coordspage extends StatefulWidget {
   coordspage();
-
   @override
   State<coordspage> createState() => _coordspageState();
 }

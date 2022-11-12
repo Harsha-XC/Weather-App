@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 class citypage extends StatefulWidget {
   citypage();
-
   @override
   State<citypage> createState() => _citypageState();
 }
