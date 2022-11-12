@@ -12,18 +12,25 @@ class citypage extends StatefulWidget {
 
 class _citypageState extends State<citypage> {
   @override
-  String city='Berlin';
-  Future APIcall() async {
-    var url = Uri.parse("https://api.openweathermap.org/data/2.5/"
-        "weather?q="+city+"Berlin&appid=3ffeeecbf5d2aabcd2d01ed0a0999871&units=metric");
-    final response=await http.get(url);
-    final json= jsonDecode(response.body);
-    return json;
-  }
-  xx({required x}){
-    city=x;
-  }
   Widget build(BuildContext context) {
+    String city='Berlin';
+    var a,b,c,d,e,f;
+    Future APIcall() async {
+      var url = Uri.parse("https://api.openweathermap.org/data/2.5/"
+          "weather?q="+city+"Berlin&appid=3ffeeecbf5d2aabcd2d01ed0a0999871&units=metric");
+      final response=await http.get(url);
+      final json= jsonDecode(response.body);
+      //return json;
+      a = "Weather: " + json.data['weather'][0]['description'].toString();
+      b = "Temperature: " + json.data['main']['temp'].toString() + " degrees Celcius";
+      c = "Visibility: " + json.data['visibility'].toString() + " metres".toString();
+      d="Latitude: "+json.data['coord']['lat'].toString();
+      e="Longitude: "+json.data['coord']['lon'].toString();
+      f="http://openweathermap.org/img/wn/"+json.data['weather'][0]['icon']+"@2x.png";
+    }
+    xx({required x}){
+      city=x;
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("Weather App",style: TextStyle(color: Colors.black),),
@@ -40,6 +47,13 @@ class _citypageState extends State<citypage> {
                       color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
                     ),decoration: InputDecoration(hintText:"City name:",fillColor: Colors.white,filled: true),
                     )),
+                  ElevatedButton(onPressed: APIcall,
+                      child: Text("Input Co-ordinates",style: TextStyle(
+                          fontSize: 20,fontStyle: FontStyle.italic)
+                      ),style:ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(Colors.white),
+                          foregroundColor: MaterialStatePropertyAll(Colors.black)
+                      ),)
                   ]
                   )
               ),
@@ -48,23 +62,22 @@ class _citypageState extends State<citypage> {
                   return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children:[
-                        Text("Weather: "+snapshot.data['weather'][0]['description'].toString(),style: TextStyle(
-                          fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
-                        ),),
-                        Text("Temperature: "+snapshot.data['main']['temp'].toString()+" degrees Celcius",style: TextStyle(
-                          fontStyle: FontStyle.italic,fontSize: 28,color: Colors.white
-                        ),),
-                        Text("Visibility: "+snapshot.data['visibility'].toString()+" metres",style: TextStyle(
+                        Text(a,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
                         ),),
-                        Text("Latitude: "+snapshot.data['coord']['lat'].toString(),style: TextStyle(
+                        Text(b,style: TextStyle(
+                            fontStyle: FontStyle.italic,fontSize: 28,color: Colors.white
+                        ),),
+                        Text(c,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
                         ),),
-                        Text("Longitude : "+snapshot.data['coord']['lon'].toString(),style: TextStyle(
+                        Text(d,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
-                )),
-                        Container(height: 100,width: 100,child: Image.network(
-                            "http://openweathermap.org/img/wn/"+snapshot.data['weather'][0]['icon']+"@2x.png"),
+                        ),),
+                        Text(e,style: TextStyle(
+                            fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
+                        )),
+                        Container(height: 100,width: 100,child: Image.network(f),
                           decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.white),
                         )
                       ]

@@ -11,24 +11,34 @@ class coordspage extends StatefulWidget {
 
 class _coordspageState extends State<coordspage> {
   @override
-  var lat='0';
-  var lon='0';
+  var lat='44.34';
+  var lon='10.99';
   xa({required x}){
     lat=x;
   }
   xb({required x}){
     lon=x;
   }
+
   Future APIcall() async {
     var url = Uri.parse("https://api.openweathermap.org/data/2.5/onecall?"
-        "lat="+lat+
-        "&lon="+lon+
+        "lat=" + lat +
+        "&lon=" + lon +
         "&exclude=hourly,daily&"
-        "appid=3ffeeecbf5d2aabcd2d01ed0a0999871");
-    final response=await http.get(url);
-    final json= jsonDecode(response.body);
-    return json;
+            "appid=76cd3acdfd42c1d5824cdd626fa34ac8");
+    final response = await http.get(url);
+    final json = jsonDecode(response.body);
+    //return json;
+
+    a = "Weather: " + json.data['weather'][0]['description'].toString();
+    b = "Temperature: " + json.data['main']['temp'].toString() + " degrees Celcius";
+    c = "Visibility: " + json.data['visibility'].toString() + " metres".toString();
+    d="Latitude: "+json.data['coord']['lat'].toString();
+    e="Longitude: "+json.data['coord']['lon'].toString();
+    f="http://openweathermap.org/img/wn/"+json.data['weather'][0]['icon']+"@2x.png";
   }
+  var a,b,c,d,e,f;
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -42,14 +52,22 @@ class _coordspageState extends State<coordspage> {
             children:[
               Padding(padding: EdgeInsets.all(16.0),
                   child: Column(mainAxisAlignment:MainAxisAlignment.spaceEvenly,children: [Container(height:75,width:250,child:
-                  TextField(onChanged: (text) {xa(x:text);},showCursor: true,style: TextStyle(
+                  TextField(onSubmitted: (text) {xa(x:text);},showCursor: true,style: TextStyle(
                     color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
                   ),decoration: InputDecoration(hintText:"Latitude:",fillColor: Colors.white,filled: true),
                   )),Container(height:75,width:250,child:
-                  TextField(onChanged: (text) {xb(x:text);},showCursor: true,style: TextStyle(
+                  TextField(onSubmitted: (text) {xb(x:text);},showCursor: true,style: TextStyle(
                     color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
                   ),decoration: InputDecoration(hintText:"Longitude:",fillColor: Colors.white,filled: true),
                   )),
+                    ElevatedButton(onPressed: APIcall, child: Text("Find the weather",style: TextStyle(
+                      fontStyle: FontStyle.italic,fontSize: 28,
+                    )
+                    ),style: ButtonStyle(
+                        foregroundColor:MaterialStatePropertyAll(Colors.black),
+                      backgroundColor: MaterialStatePropertyAll(Colors.white)
+                    ),
+                    )
                   ]
                   )
               ),
@@ -58,23 +76,22 @@ class _coordspageState extends State<coordspage> {
                   return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children:[
-                        Text("Weather: "+snapshot.data['weather'][0]['description'].toString(),style: TextStyle(
+                        Text(a,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
                         ),),
-                        Text("Temperature: "+snapshot.data['main']['temp'].toString()+" degrees Celcius",style: TextStyle(
+                        Text(b,style: TextStyle(
                             fontStyle: FontStyle.italic,fontSize: 28,color: Colors.white
                         ),),
-                        Text("Visibility: "+snapshot.data['visibility'].toString()+" metres",style: TextStyle(
+                        Text(c,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
                         ),),
-                        Text("Latitude: "+snapshot.data['coord']['lat'].toString(),style: TextStyle(
+                        Text(d,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
                         ),),
-                        Text("Longitude : "+snapshot.data['coord']['lon'].toString(),style: TextStyle(
+                        Text(e,style: TextStyle(
                             fontSize: 28,color: Colors.white,fontStyle: FontStyle.italic
                         )),
-                        Container(height: 100,width: 100,child: Image.network(
-                            "http://openweathermap.org/img/wn/"+snapshot.data['weather'][0]['icon']+"@2x.png"),
+                        Container(height: 100,width: 100,child: Image.network(f),
                           decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.white),
                         )
                       ]

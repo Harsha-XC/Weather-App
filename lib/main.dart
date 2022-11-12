@@ -73,36 +73,25 @@ class _APIthingState extends State<APIthing> {
               fontSize: 28
             ),
             ),
-            ElevatedButton(onPressed:gotocity,
+            Container(height: 200,width: 200,child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(onPressed:gotocity,
                 child: Text("       Input City       ",style: TextStyle(
                     fontSize: 20,fontStyle: FontStyle.italic)
                 ),style:ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.white),
-                foregroundColor: MaterialStatePropertyAll(Colors.black)
+                    backgroundColor: MaterialStatePropertyAll(Colors.white),
+                    foregroundColor: MaterialStatePropertyAll(Colors.black)
+                ),
               ),
-            ),
-            ElevatedButton(onPressed: gotocoords,
-                child: Text("Input Co-ordinates",style: TextStyle(
-                  fontSize: 20,fontStyle: FontStyle.italic)
-                  ),style:ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  foregroundColor: MaterialStatePropertyAll(Colors.black)
-              ),
-            ),
-            ElevatedButton(onPressed: gotocity1,
-                child: Text("        Input City         ",style: TextStyle(
-                    fontSize: 20,fontStyle: FontStyle.italic)
-                ),style:ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  foregroundColor: MaterialStatePropertyAll(Colors.black)
-              ),),
-            ElevatedButton(onPressed: gotocoords1,
+              ElevatedButton(onPressed: gotocoords,
                 child: Text("Input Co-ordinates",style: TextStyle(
                     fontSize: 20,fontStyle: FontStyle.italic)
                 ),style:ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  foregroundColor: MaterialStatePropertyAll(Colors.black)
-              ),),
+                    backgroundColor: MaterialStatePropertyAll(Colors.white),
+                    foregroundColor: MaterialStatePropertyAll(Colors.black)
+                ),
+              ),
+            ],),),
             ElevatedButton(onPressed: gotoratings,child: Text("        Rate Us!!!       ",style: TextStyle(
                 fontSize: 20,fontStyle: FontStyle.italic)
             ),style:ButtonStyle(
