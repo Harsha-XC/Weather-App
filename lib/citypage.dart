@@ -11,13 +11,14 @@ class citypage extends StatefulWidget {
 }
 
 class _citypageState extends State<citypage> {
+  final _citycon=TextEditingController();
   @override
   Widget build(BuildContext context) {
     String city='Berlin';
     var a,b,c,d,e,f;
     Future APIcall() async {
       var url = Uri.parse("https://api.openweathermap.org/data/2.5/"
-          "weather?q="+city+"Berlin&appid=3ffeeecbf5d2aabcd2d01ed0a0999871&units=metric");
+          "weather?q="+city+"Berlin&appid=76cd3acdfd42c1d5824cdd626fa34ac8&units=metric");
       final response=await http.get(url);
       final json= jsonDecode(response.body);
       //return json;
@@ -43,11 +44,12 @@ class _citypageState extends State<citypage> {
             children:[
               Padding(padding: EdgeInsets.all(16.0),
                   child: Column(mainAxisAlignment:MainAxisAlignment.spaceEvenly,children: [Container(height:75,width:250,child:
-                    TextField(onChanged: (text) {xx(x:text);},showCursor: true,style: TextStyle(
+                    TextField(controller: _citycon,
+                      onChanged: (text) {xx(x:text);},showCursor: true,style: TextStyle(
                       color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
                     ),decoration: InputDecoration(hintText:"City name:",fillColor: Colors.white,filled: true),
-                    )),
-                  ElevatedButton(onPressed: APIcall,
+                    ),),
+                  ElevatedButton(onPressed: (){city=_citycon.text;},
                       child: Text("Input Co-ordinates",style: TextStyle(
                           fontSize: 20,fontStyle: FontStyle.italic)
                       ),style:ButtonStyle(
@@ -86,8 +88,8 @@ class _citypageState extends State<citypage> {
                   return CircularProgressIndicator();
                 }
               }
-              )
-            ]
+              )]
+
           )
     );
   }

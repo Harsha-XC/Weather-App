@@ -24,10 +24,10 @@ class _coordspageState extends State<coordspage> {
     var url = Uri.parse("https://api.openweathermap.org/data/2.5/onecall?"
         "lat=" + lat +
         "&lon=" + lon +
-        "&exclude=hourly,daily&"
-            "appid=76cd3acdfd42c1d5824cdd626fa34ac8");
+        "&appid=76cd3acdfd42c1d5824cdd626fa34ac8");
     final response = await http.get(url);
     final json = jsonDecode(response.body);
+    print(json);
     //return json;
 
     a = "Weather: " + json.data['weather'][0]['description'].toString();
@@ -51,15 +51,17 @@ class _coordspageState extends State<coordspage> {
             mainAxisAlignment:MainAxisAlignment.spaceEvenly,
             children:[
               Padding(padding: EdgeInsets.all(16.0),
-                  child: Column(mainAxisAlignment:MainAxisAlignment.spaceEvenly,children: [Container(height:75,width:250,child:
-                  TextField(onSubmitted: (text) {xa(x:text);},showCursor: true,style: TextStyle(
-                    color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
-                  ),decoration: InputDecoration(hintText:"Latitude:",fillColor: Colors.white,filled: true),
-                  )),Container(height:75,width:250,child:
-                  TextField(onSubmitted: (text) {xb(x:text);},showCursor: true,style: TextStyle(
-                    color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
-                  ),decoration: InputDecoration(hintText:"Longitude:",fillColor: Colors.white,filled: true),
-                  )),
+                  child: Column(mainAxisAlignment:MainAxisAlignment.spaceEvenly,children: [
+                    Container(height:75,width:250,child:
+                    TextField(onSubmitted: (text) {xa(x:text);},showCursor: true,style: TextStyle(
+                      color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
+                    ),decoration: InputDecoration(hintText:"Latitude:",fillColor: Colors.white,filled: true),
+                    )),
+                    Container(height:75,width:250,child:
+                    TextField(onSubmitted: (text) {xb(x:text);},showCursor: true,style: TextStyle(
+                      color: Colors.black,fontStyle: FontStyle.italic,fontSize: 25,
+                    ),decoration: InputDecoration(hintText:"Longitude:",fillColor: Colors.white,filled: true),
+                    )),
                     ElevatedButton(onPressed: APIcall, child: Text("Find the weather",style: TextStyle(
                       fontStyle: FontStyle.italic,fontSize: 28,
                     )
@@ -105,4 +107,24 @@ class _coordspageState extends State<coordspage> {
         )
     );
   }
+}
+Future apicall(city) async {
+  final url = Uri.parse(
+      "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=8875a46932e3e98fc148dabdac8af3ff");
+  final response = await http.get(url);
+  print(response.body);
+  final json = jsonDecode(response.body);
+  print(json["weather"][0]["main"]);
+
+  final output = {
+    'description': json["weather"][0]['description'],
+    'temp': json["main"]['temp'] - 273,
+    'feelslike': json["main"]['feels_like'] - 273,
+    'min': json["main"]['temp_min'] - 273,
+    'max': (json["main"]['temp_max'] - 273),
+    'pressure': json["main"]['pressure'],
+    'humidity': json["main"]['humidity']
+
+  };
+  return output;
 }
